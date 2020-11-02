@@ -1,7 +1,5 @@
 package com.AmitKesari;
 
-import java.util.ArrayList;
-
 import static com.AmitKesari.Main.showMainMenu;
 import static com.AmitKesari.UserData.userArrayList;
 import static com.AmitKesari.Main.atmMachine;
@@ -10,6 +8,7 @@ public class BankAdmin implements MenuDrive {
 
     private float upTimeHR = 24;
 
+    //Initialise Bank Admin and User Data
     BankAdmin() {
         UserData userData = new UserData();
     }
@@ -30,25 +29,23 @@ public class BankAdmin implements MenuDrive {
         }
     }
 
+    //Displays Data of all ATM
     public void displayATMDetails() {
         System.out.println("Details: ");
-
-
         System.out.printf("%-20s%-20s\n", "ATM ID: ", atmMachine.getATMID());
         System.out.printf("%-20s%-20s\n", "Currency Type: ", atmMachine.getCurrencyType());
         System.out.printf("%-20s%-20s\n", "Cash In Machine: ", atmMachine.getReserveDailyAmount());
         System.out.printf("%-20s%-20s\n", "Paper Rolls Left: ", atmMachine.getPaperRoll());
-        System.out.printf("%-20s%-20s\n", "Energy Consumed: ", atmMachine.getEnergyConsumeKWH(upTimeHR));
-        System.out.printf("%-20s%-20s\n", "Ambient Temperature: ", atmMachine.getAmbientTemp());
+        System.out.printf("%-20s%-20s\n", "Energy Consumed (kWh): ", atmMachine.getEnergyConsumeKWH(upTimeHR));
+        System.out.printf("%-20s%-20s\n", "Ambient Temperature (C): ", atmMachine.getAmbientTemp());
         System.out.println();
-
     }
 
     private int option = 1;
 
     @Override
     public void showMenu() {
-        System.out.println("Choose your option:");
+        System.out.println("Choose Your Option:");
 
         String[] functions = new String[]{"Display All User Data", "ATM Machine Details", "Back", "Exit"};
         for (int i = 0; i < functions.length; i++) {
@@ -56,35 +53,29 @@ public class BankAdmin implements MenuDrive {
         }
         option = scanner.nextInt();
         functionInvoker(option);
-
     }
 
     @Override
     public void functionInvoker(int option) {
         switch (option) {
-            //Add different functions below
             case 1: {
                 displayUserData();
                 showMenu();
                 break;
             }
-
             case 2: {
                 displayATMDetails();
                 showMenu();
                 break;
             }
-
-            case 6: {
+            case 3: {
                 showMainMenu();
                 break;
             }
-            case 7: {
+            case 4: {
                 System.exit(0);
                 break;
             }
-
-
             default:
                 System.out.println("Choose correctly");
                 showMenu();

@@ -13,11 +13,12 @@ public interface MenuDrive {
     //Takes in the option for switching particular functions
     void functionInvoker(int option);
 
+    //Verifies the inputted password by checking three times
     default boolean passwordVerifier(String correctPassword) {
         String inputPassword = new String();
         int attempts = 0;
         final int allowedAttempts = 3;
-        while(attempts<=allowedAttempts) {
+        while (attempts <= allowedAttempts) {
             if (attempts == 0) {
                 System.out.println("Enter the password");
                 inputPassword = scanner.next();

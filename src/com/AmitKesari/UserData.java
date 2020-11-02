@@ -2,6 +2,7 @@ package com.AmitKesari;
 
 import java.util.ArrayList;
 
+//Defines User Schema of all User Data
 class UserSchema {
     private String userName = "";
     private String accNumber = "";
@@ -12,6 +13,12 @@ class UserSchema {
     private String IFSC = "";
     private float accBalance = 0;
 
+    //Default constructor
+    public UserSchema() {
+
+    }
+
+    //Parametrised constructor
     public UserSchema(String userName, String accNumber, String accPassword, String guardianName,
                       String address, String mobile, String IFSC, long accBalance) {
         this.userName = userName;
@@ -22,10 +29,6 @@ class UserSchema {
         this.mobile = mobile;
         this.IFSC = IFSC;
         this.accBalance = accBalance;
-    }
-
-    public UserSchema() {
-
     }
 
     public String getUserName() {
@@ -69,22 +72,31 @@ class UserSchema {
     }
 }
 
+//User Database
 public class UserData {
 
     static ArrayList<UserSchema> userArrayList = new ArrayList<>(0);
 
     UserData() {
         userArrayList.add(new UserSchema(
-                "Amit", "20341314171", "1234", "papa",
-                "JR-49,Hindalco Colony", "9616773794", "IITTN0001612", 1000000
-        ));
-        userArrayList.add(new UserSchema(
-                "Anu", "90141724171", "1234", "papa",
+                "Anurodh", "90141724171", "1234", "Mr JM Dubey",
                 "F-5,Hindalco Colony", "9816123794", "IITTN0001612", 100000
         ));
         userArrayList.add(new UserSchema(
-                "r", "39941724171", "12", "rrr",
-                "Sr-511,Hindalco Colony", "7116123794", "IITTN0001612", 200000
+                "A1", "67341724171", "1234", "Mr yroehT",
+                "Sr-511,Hindalco Colony", "9516123744", "IITTN0001612", 253200
+        ));
+        userArrayList.add(new UserSchema(
+                "A2", "39941724171", "1234", "Mr taCypoC",
+                "HH-17,Hindalco Colony", "8116128194", "IITTN0001612", 640800
+        ));
+        userArrayList.add(new UserSchema(
+                "A3", "79941724991", "1234", "Mr msiraigalP",
+                "E-1,Hindalco Colony", "7116123794", "IITTN0001612", 700
+        ));
+        userArrayList.add(new UserSchema(
+                "Amit", "20341314171", "1234", "Mr Subhash",
+                "JR-49,Hindalco Colony", "9616773794", "IITTN0001612", 10000000
         ));
     }
 }

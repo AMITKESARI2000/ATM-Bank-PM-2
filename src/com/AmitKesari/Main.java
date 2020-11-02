@@ -1,6 +1,9 @@
 //AUTHOR: CS19B003 AMIT KESARI
-package com.AmitKesari;
+//IMP DETAILS:
+//correctAdminPassword = "1234"
+//Users: A1,A2,A3... with password "1234"
 
+package com.AmitKesari;
 
 import java.util.Scanner;
 
@@ -16,10 +19,10 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         String yn = "y";
 
-        //Menu For Displaying Options at the main screen
+        //Menu For Displaying Options at the Main screen
         do {
             int option = 0;
-            System.out.println("Choose your option:");
+            System.out.println("Main Menu. Choose Your Option:");
             String[] functions = new String[]{"Bank Admin Dash", "Customer Dash", "Exit Program"};
             for (int i = 0; i < functions.length; i++) {
                 System.out.println(i + 1 + ": " + functions[i]);
@@ -27,7 +30,7 @@ public class Main {
             option = Integer.parseInt(scanner.next());
             switch (option) {
                 case 1: {
-                    //For Bank purposes
+                    //For Bank Purposes
                     System.out.println("ADMIN ACCESS");
                     if (bankAdmin.passwordVerifier(correctAdminPassword)) {
                         bankAdmin.showMenu();
@@ -38,7 +41,7 @@ public class Main {
                     break;
                 }
                 case 2: {
-                    //For User of ATM
+                    //For User Using ATM
                     System.out.println("Greetings Dear User 😊 ");
                     boolean isUserExist = false;
 
@@ -58,12 +61,10 @@ public class Main {
                     if (!isUserExist)
                         System.out.println("No Account Registered By The Username Entered. " +
                                 "Open A Premium Account In " + bankNameIITT + " Now And Avail Amazing Offers!");
-
                     break;
-
                 }
                 case 3: {
-                    //For Exit from Program
+                    //For Exiting from Program
                     System.out.println("Regards. Have a Great Day 😊");
                     System.exit(0);
                     break;
@@ -72,10 +73,7 @@ public class Main {
                     System.out.println("Choose correctly");
                     showMainMenu();
             }
-
-
         } while (yn.equals("y"));
-
     }
 
     public static void main(String[] args) {

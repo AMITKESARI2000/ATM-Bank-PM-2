@@ -1,7 +1,5 @@
 package com.AmitKesari;
 
-import static com.AmitKesari.Main.showMainMenu;
-
 public class ATMMachine implements ATMDisplay {
     private final String ATMID = "IITT_001_enihcam";
     private double reserveDailyAmount = 10e7;
@@ -10,6 +8,10 @@ public class ATMMachine implements ATMDisplay {
     private float ambientTemp = 28;
     private String currencyType = "Rupee";
     private float energyConsumeKWH = (float) 0.6;
+
+    ATMMachine() {
+        msgDisplay();
+    }
 
     public String getATMID() {
         return ATMID;
@@ -35,6 +37,7 @@ public class ATMMachine implements ATMDisplay {
         return energyConsumeKWH * hr;
     }
 
+    //Display Keypad on screen
     @Override
     public String keypadIP() {
         String ipString = "0";
@@ -54,14 +57,13 @@ public class ATMMachine implements ATMDisplay {
 
             }
         } catch (NumberFormatException e) {
-            System.out.println("Exception. Only use Numbers of Keypad. ");
-
+            System.out.println("Exception Occurred. Only use Numbers of Keypad. ");
         }
         ipString = "0";
         return ipString;
-
     }
 
+    //Dispenses cash to user
     @Override
     public boolean cashDispenser(UserSchema userSchema) {
         float amtWithdraw = 0;
@@ -87,11 +89,12 @@ public class ATMMachine implements ATMDisplay {
         return false;
     }
 
+    //Deposits cash into user account
     public boolean cashDepositor(UserSchema userSchema) {
         float amtDeposit = 0;
         System.out.println("Enter the amount you want to Deposit: ");
         amtDeposit = Float.parseFloat(keypadIP());
-        if (amtDeposit != 0) {
+        if (amtDeposit > 0) {
             if (amtDeposit >= 0) {
                 System.out.println("Depositing Cash... Deposit Cash In The Slot Please");
                 userSchema.setAccBalance((userSchema.getAccBalance() + amtDeposit));
@@ -107,18 +110,17 @@ public class ATMMachine implements ATMDisplay {
         return false;
     }
 
+    //Prints balance slip for user
     @Override
     public boolean balanceSlipDispenser() {
         if (paperRoll > 0) {
-            System.out.println("Collect the Balance Slip Please");
+            System.out.println("Collect The Balance Slip Please. Save Paper Save Nature.");
             paperRoll--;
             return true;
         }
-        System.out.println("Paper Roll is finished. Please use account display only. Sorry for inconvenience caused.");
+        System.out.println("Paper Roll Is Finished. Please use account display only. Sorry for inconvenience caused.");
         return false;
-
     }
-
 
     private int option = 1;
 
@@ -129,6 +131,6 @@ public class ATMMachine implements ATMDisplay {
 
     @Override
     public void functionInvoker(int option) {
-        System.out.println("Invoke "+option);
+        System.out.println("Invoke " + option);
     }
 }
