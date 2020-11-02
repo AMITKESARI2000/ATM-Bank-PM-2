@@ -29,7 +29,7 @@ public class BankAdmin implements MenuDrive {
 
     }
 
-    private int option;
+    private int option = 1;
 
     @Override
     public void showMenu() {

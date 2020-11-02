@@ -8,7 +8,8 @@ public class User implements MenuDrive{
     public void showMenu() {
         System.out.println("Choose your option:");
 
-        String[] functions = new String[]{"Display All User Data", "Back", "Exit"};
+        String[] functions = new String[]{"Account Details","Cash Withdrawal","Cash Deposition","Bank Statement Slip"
+                , "Back", "Exit"};
         for (int i = 0; i < functions.length; i++) {
             System.out.println(i + 1 + ": " + functions[i]);
         }
