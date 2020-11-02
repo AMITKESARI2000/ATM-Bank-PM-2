@@ -10,7 +10,7 @@ class UserSchema {
     private String address = "";
     private String mobile = "";
     private String IFSC = "";
-    private long accBalance = 0;
+    private float accBalance = 0;
 
     public UserSchema(String userName, String accNumber, String accPassword, String guardianName,
                       String address, String mobile, String IFSC, long accBalance) {
@@ -22,6 +22,10 @@ class UserSchema {
         this.mobile = mobile;
         this.IFSC = IFSC;
         this.accBalance = accBalance;
+    }
+
+    public UserSchema() {
+
     }
 
     public String getUserName() {
@@ -56,11 +60,11 @@ class UserSchema {
         return IFSC;
     }
 
-    public long getAccBalance() {
+    public float getAccBalance() {
         return accBalance;
     }
 
-    public void setAccBalance(long accBalance) {
+    public void setAccBalance(float accBalance) {
         this.accBalance = accBalance;
     }
 }
@@ -72,11 +76,15 @@ public class UserData {
     UserData() {
         userArrayList.add(new UserSchema(
                 "Amit", "20341314171", "1234", "papa",
-                "JR-49,Hindalco Colony", "9616773794", "IITTN0001612", 100000
+                "JR-49,Hindalco Colony", "9616773794", "IITTN0001612", 1000000
         ));
         userArrayList.add(new UserSchema(
                 "Anu", "90141724171", "1234", "papa",
-                "F-5,Hindalco Colony", "9816123794", "IITTN0001612", 1000
+                "F-5,Hindalco Colony", "9816123794", "IITTN0001612", 100000
+        ));
+        userArrayList.add(new UserSchema(
+                "r", "39941724171", "12", "rrr",
+                "Sr-511,Hindalco Colony", "7116123794", "IITTN0001612", 200000
         ));
     }
 }

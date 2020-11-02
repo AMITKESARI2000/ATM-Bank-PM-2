@@ -4,8 +4,11 @@ import java.util.ArrayList;
 
 import static com.AmitKesari.Main.showMainMenu;
 import static com.AmitKesari.UserData.userArrayList;
+import static com.AmitKesari.Main.atmMachine;
 
 public class BankAdmin implements MenuDrive {
+
+    private float upTimeHR = 24;
 
     BankAdmin() {
         UserData userData = new UserData();
@@ -25,7 +28,19 @@ public class BankAdmin implements MenuDrive {
             System.out.printf("%-20s%-20s\n", "IFSC: ", userArrayList.get(i).getIFSC());
             System.out.println();
         }
+    }
 
+    public void displayATMDetails() {
+        System.out.println("Details: ");
+
+
+        System.out.printf("%-20s%-20s\n", "ATM ID: ", atmMachine.getATMID());
+        System.out.printf("%-20s%-20s\n", "Currency Type: ", atmMachine.getCurrencyType());
+        System.out.printf("%-20s%-20s\n", "Cash In Machine: ", atmMachine.getReserveDailyAmount());
+        System.out.printf("%-20s%-20s\n", "Paper Rolls Left: ", atmMachine.getPaperRoll());
+        System.out.printf("%-20s%-20s\n", "Energy Consumed: ", atmMachine.getEnergyConsumeKWH(upTimeHR));
+        System.out.printf("%-20s%-20s\n", "Ambient Temperature: ", atmMachine.getAmbientTemp());
+        System.out.println();
 
     }
 
@@ -35,7 +50,7 @@ public class BankAdmin implements MenuDrive {
     public void showMenu() {
         System.out.println("Choose your option:");
 
-        String[] functions = new String[]{"Display All User Data", "Back", "Exit"};
+        String[] functions = new String[]{"Display All User Data", "ATM Machine Details", "Back", "Exit"};
         for (int i = 0; i < functions.length; i++) {
             System.out.println(i + 1 + ": " + functions[i]);
         }
@@ -55,7 +70,7 @@ public class BankAdmin implements MenuDrive {
             }
 
             case 2: {
-
+                displayATMDetails();
                 showMenu();
                 break;
             }
