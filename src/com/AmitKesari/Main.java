@@ -1,7 +1,4 @@
-//AUTHOR: CS19B003 AMIT KESARI
-//IMP DETAILS:
-//correctAdminPassword = "1234"
-//Users: A1,A2,A3... with password "1234"
+
 
 package com.AmitKesari;
 
@@ -47,8 +44,10 @@ public class Main {
 
                     System.out.println("Enter Username: ");
                     String userName = scanner.next();
+                    System.out.println("Enter Account Number: ");
+                    String accNumber = scanner.next();
                     for (int i = 0; i < userArrayList.size(); i++) {
-                        if (userArrayList.get(i).getUserName().equals(userName)) {
+                        if (userArrayList.get(i).getAccNumber().equals(accNumber)) {
                             isUserExist = true;
                             if (bankAdmin.passwordVerifier(userArrayList.get(i).getAccPassword())) {
                                 User currentUser = new User(userArrayList.get(i));
@@ -56,6 +55,7 @@ public class Main {
                             } else {
                                 System.out.println("Not Authorized!!!");
                             }
+                            break;
                         }
                     }
                     if (!isUserExist)

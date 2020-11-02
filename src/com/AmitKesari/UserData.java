@@ -79,23 +79,23 @@ public class UserData {
 
     UserData() {
         userArrayList.add(new UserSchema(
-                "Anurodh", "90141724171", "1234", "Mr JM Dubey",
+                "Anurodh", "90141", "12345", "Mr JM Dubey",
                 "F-5,Hindalco Colony", "9816123794", "IITTN0001612", 100000
         ));
         userArrayList.add(new UserSchema(
-                "A1", "67341724171", "1234", "Mr yroehT",
+                "A1", "11111", "12345", "Mr yroehT",
                 "Sr-511,Hindalco Colony", "9516123744", "IITTN0001612", 253200
         ));
         userArrayList.add(new UserSchema(
-                "A2", "39941724171", "1234", "Mr taCypoC",
+                "A2", "1111", "12345", "Mr taCypoC",
                 "HH-17,Hindalco Colony", "8116128194", "IITTN0001612", 640800
         ));
         userArrayList.add(new UserSchema(
-                "A3", "79941724991", "1234", "Mr msiraigalP",
+                "A3", "11111", "12345", "Mr msiraigalP",
                 "E-1,Hindalco Colony", "7116123794", "IITTN0001612", 700
         ));
         userArrayList.add(new UserSchema(
-                "Amit", "20341314171", "1234", "Mr Subhash",
+                "Amit", "20341", "12345", "Mr Subhash",
                 "JR-49,Hindalco Colony", "9616773794", "IITTN0001612", 10000000
         ));
     }

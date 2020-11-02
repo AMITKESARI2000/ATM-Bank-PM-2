@@ -1,5 +1,7 @@
 package com.AmitKesari;
 
+import java.util.Date;
+
 public class ATMMachine implements ATMDisplay {
     private final String ATMID = "IITT_001_enihcam";
     private double reserveDailyAmount = 10e7;
@@ -115,6 +117,7 @@ public class ATMMachine implements ATMDisplay {
     public boolean balanceSlipDispenser() {
         if (paperRoll > 0) {
             System.out.println("Collect The Balance Slip Please. Save Paper Save Nature.");
+            System.out.println("Date: "+new Date().toString());
             paperRoll--;
             return true;
         }

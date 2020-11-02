@@ -1,5 +1,7 @@
 package com.AmitKesari;
 
+import java.util.Date;
+
 import static com.AmitKesari.Main.showMainMenu;
 import static com.AmitKesari.UserData.userArrayList;
 import static com.AmitKesari.Main.atmMachine;
@@ -38,6 +40,7 @@ public class BankAdmin implements MenuDrive {
         System.out.printf("%-20s%-20s\n", "Paper Rolls Left: ", atmMachine.getPaperRoll());
         System.out.printf("%-20s%-20s\n", "Energy Consumed (kWh): ", atmMachine.getEnergyConsumeKWH(upTimeHR));
         System.out.printf("%-20s%-20s\n", "Ambient Temperature (C): ", atmMachine.getAmbientTemp());
+        System.out.println("System Date:"+new Date().toString());
         System.out.println();
     }
 
