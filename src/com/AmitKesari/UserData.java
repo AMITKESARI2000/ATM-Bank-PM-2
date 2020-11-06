@@ -1,6 +1,31 @@
 package com.AmitKesari;
 
 import java.util.ArrayList;
+import java.util.Date;
+
+class UserTransaction {
+    private String type = "Debit"; //Debit=nikalna
+    private float transactionAmount = 0;
+    private String transactionTime = new Date().toString();
+
+    public UserTransaction(String type, float amtWithdraw, String date) {
+        this.type = type;
+        transactionAmount = amtWithdraw;
+        date = transactionTime;
+    }
+
+    public float getTransactionAmount() {
+        return transactionAmount;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public String getTransactionTime() {
+        return transactionTime;
+    }
+}
 
 //Defines User Schema of all User Data
 class UserSchema {
@@ -12,6 +37,15 @@ class UserSchema {
     private String mobile = "";
     private String IFSC = "";
     private float accBalance = 0;
+    private ArrayList<UserTransaction> userTransactionArrayList = new ArrayList<>(0);
+
+    public void addUserTransactionArrayList(UserTransaction userTransaction) {
+        userTransactionArrayList.add(userTransaction);
+    }
+
+    public ArrayList<UserTransaction> getUserTransactionArrayList() {
+        return userTransactionArrayList;
+    }
 
     //Default constructor
     public UserSchema() {

@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 import static com.AmitKesari.UserData.userArrayList;
 
-public class Main {
+public class Main  {
     static BankAdmin bankAdmin = new BankAdmin();
     private static final String correctAdminPassword = "1234";
     public static final String bankNameIITT = "IITT Bank of Renukoot";
@@ -76,8 +76,7 @@ public class Main {
         } while (yn.equals("y"));
     }
 
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+    public static void main(String[] args){
         for (int i = 0; i < 52; i++) System.out.printf("=");
         System.out.println("\n==========Welcome To " + bankNameIITT + "==========");
         for (int i = 0; i < 52; i++) System.out.printf("=");

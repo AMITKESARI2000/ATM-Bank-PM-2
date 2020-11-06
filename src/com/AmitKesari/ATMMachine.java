@@ -10,6 +10,7 @@ public class ATMMachine implements ATMDisplay {
     private float ambientTemp = 28;
     private String currencyType = "Rupee";
     private float energyConsumeKWH = (float) 0.6;
+    private int balanceSlipCount = 3;
 
     ATMMachine() {
         msgDisplay();
@@ -81,6 +82,7 @@ public class ATMMachine implements ATMDisplay {
                 userSchema.setAccBalance((userSchema.getAccBalance() - amtWithdraw));
                 reserveDailyAmount -= amtWithdraw;
                 System.out.println(currencyType + " " + amtWithdraw + " withdrawn.");
+                userSchema.addUserTransactionArrayList(new UserTransaction("Debit", amtWithdraw,new Date().toString()));
                 return true;
             } else {
                 System.out.println("You are trying to withdraw amount greater\nthan what you have in your account. Cancelling...");
@@ -102,6 +104,7 @@ public class ATMMachine implements ATMDisplay {
                 userSchema.setAccBalance((userSchema.getAccBalance() + amtDeposit));
                 reserveDailyAmount += amtDeposit;
                 System.out.println("Rs." + amtDeposit + " deposited.");
+                userSchema.addUserTransactionArrayList(new UserTransaction("Credit", amtDeposit, new Date().toString()));
                 return true;
             } else {
                 System.out.println("You are trying to Deposit invalid amount. Cancelling...");
@@ -114,10 +117,21 @@ public class ATMMachine implements ATMDisplay {
 
     //Prints balance slip for user
     @Override
-    public boolean balanceSlipDispenser() {
+    public boolean balanceSlipDispenser(UserSchema userSchema) {
         if (paperRoll > 0) {
             System.out.println("Collect The Balance Slip Please. Save Paper Save Nature.");
-            System.out.println("Date: "+new Date().toString());
+            System.out.printf("%-20s%-20s\n", "User Name: ", userSchema.getUserName());
+            System.out.printf("%-20s%-20s\n", "Account Number: ", userSchema.getAccNumber());
+            System.out.printf("%-20s%-20.2f\n", "Account Balance: Rs.", userSchema.getAccBalance());
+            System.out.println("Date Printed: " + new Date().toString());
+            System.out.println("Last (max-" + balanceSlipCount + ") transactions:");
+            int cnt = balanceSlipCount-1;
+            for (int i = userSchema.getUserTransactionArrayList().size()-1; i > 0 && cnt > 0; i--, cnt--) {
+                System.out.println((balanceSlipCount-cnt)+": ");
+                System.out.printf("%-20s%-20s\n", "Type: ", userSchema.getUserTransactionArrayList().get(i).getType());
+                System.out.printf("%-20s%-20.2f\n", "Amount changed: Rs.", userSchema.getUserTransactionArrayList().get(i).getTransactionAmount());
+                System.out.printf("%-20s%-20s\n", "Time: ", userSchema.getUserTransactionArrayList().get(i).getTransactionTime());
+            }
             paperRoll--;
             return true;
         }

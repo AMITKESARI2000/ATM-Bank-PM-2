@@ -21,5 +21,5 @@ public interface ATMDisplay extends MenuDrive {
     boolean cashDepositor(UserSchema userSchema);
 
     //Prints balance slip for user
-    boolean balanceSlipDispenser();
+    boolean balanceSlipDispenser(UserSchema userSchema);
 }

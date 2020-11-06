@@ -18,7 +18,7 @@ public class User implements MenuDrive {
 
         System.out.printf("%-20s%-20s\n", "User Name: ", userSchema.getUserName());
         System.out.printf("%-20s%-20s\n", "Account Number: ", userSchema.getAccNumber());
-        System.out.printf("%-20s%-20s\n", "Account Balance: Rs.", userSchema.getAccBalance());
+        System.out.printf("%-20s%-20.2f\n", "Account Balance: Rs.", userSchema.getAccBalance());
         System.out.printf("%-20s%-20s\n", "Guardian Name: ", userSchema.getGuardianName());
         System.out.printf("%-20s%-20s\n", "Address: ", userSchema.getAddress());
         System.out.printf("%-20s%-20s\n", "Mobile: ", userSchema.getMobile());
@@ -89,8 +89,8 @@ public class User implements MenuDrive {
                 break;
             }
             case 4: {
-                if (atmMachine.balanceSlipDispenser()) {
-                    displayCurrentUserDetails();
+                if (atmMachine.balanceSlipDispenser(userSchema)) {
+                    System.out.println("✔Done");
                 }
                 showMenu();
                 break;

@@ -6,13 +6,24 @@ import static com.AmitKesari.Main.showMainMenu;
 import static com.AmitKesari.UserData.userArrayList;
 import static com.AmitKesari.Main.atmMachine;
 
-public class BankAdmin implements MenuDrive {
+public class BankAdmin extends PasswordSystem implements MenuDrive {
 
     private float upTimeHR = 24;
 
     //Initialise Bank Admin and User Data
     BankAdmin() {
         UserData userData = new UserData();
+        final String secretKey = "secrete";
+
+        String originalString = "javaguides";
+
+        PasswordSystem aesEncryptionDecryption = new PasswordSystem();
+        String encryptedString = aesEncryptionDecryption.encrypt(originalString, secretKey);
+        String decryptedString = aesEncryptionDecryption.decrypt(encryptedString, secretKey);
+
+        System.out.println(originalString);
+        System.out.println(encryptedString);
+        System.out.println(decryptedString);
     }
 
     //Displays Data of all logged users
