@@ -39,8 +39,8 @@ public class BankAdmin extends PasswordSystem implements MenuDrive {
         System.out.printf("%-20s%-20s\n", "Currency Type: ", atmMachine.getCurrencyType());
         System.out.printf("%-20s%-20s\n", "Cash In Machine: ", atmMachine.getReserveDailyAmount());
         System.out.printf("%-20s%-20s\n", "Paper Rolls Left: ", atmMachine.getPaperRoll());
-        System.out.printf("%-20s%-20s\n", "Energy Consumed (kWh): ", atmMachine.getEnergyConsumeKWH(upTimeHR));
-        System.out.printf("%-20s%-20s\n", "Ambient Temperature (C): ", atmMachine.getAmbientTemp());
+        System.out.printf("%-20s%-20s\n", "Energy EatUp (kWh): ", atmMachine.getEnergyConsumeKWH(upTimeHR));
+        System.out.printf("%-20s%-20s\n", "Ambient Temp (C): ", atmMachine.getAmbientTemp());
         System.out.println("System Date:"+new Date().toString());
         System.out.println();
     }

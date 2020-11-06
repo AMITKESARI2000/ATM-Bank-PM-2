@@ -3,6 +3,8 @@ package com.AmitKesari;
 import java.util.Date;
 import java.util.Scanner;
 
+import static com.AmitKesari.Main.bankNameIITT;
+
 public class ATMMachine implements ATMDisplay {
     private final String ATMID = "IITT_001_enihcam";
     private double reserveDailyAmount = 10e7;
@@ -71,9 +73,14 @@ public class ATMMachine implements ATMDisplay {
     //Dispenses cash to user
     @Override
     public boolean cashDispenser(UserSchema userSchema) {
-        float amtWithdraw = 0;
+        float amtWithdraw = 0, processingFee = 0;
         System.out.println("Enter the amount you want to Withdraw: ");
         amtWithdraw = Float.parseFloat(keypadIP());
+        if (!userSchema.getBankAcronym().equals(bankNameIITT.substring(0, 4))) {
+            processingFee = (float) (0.02 * amtWithdraw);
+            System.out.println("Different Bank Account Detected. Charging 2% Processing Fee Rs." + processingFee);
+        }
+        amtWithdraw += processingFee;
         if (amtWithdraw > 0) {
             if (amtWithdraw <= userSchema.getAccBalance()) {
                 if (OTPGeneration()) {
@@ -84,7 +91,7 @@ public class ATMMachine implements ATMDisplay {
                         System.out.println("Withdrawing Cash... Collect Cash from Slot Please");
                     userSchema.setAccBalance((userSchema.getAccBalance() - amtWithdraw));
                     reserveDailyAmount -= amtWithdraw;
-                    System.out.println(currencyType + " " + amtWithdraw + " withdrawn.");
+                    System.out.println(currencyType + " " + (amtWithdraw - processingFee) + " withdrawn.");
                     userSchema.addUserTransactionArrayList(new UserTransaction("Debit", amtWithdraw, new Date().toString()));
                     return true;
 
@@ -103,7 +110,7 @@ public class ATMMachine implements ATMDisplay {
 
     //Deposits cash into user account
     public boolean cashDepositor(UserSchema userSchema) {
-        float amtDeposit = 0;
+        float amtDeposit = 0, processingFee = 0;
         System.out.println("Enter the amount you want to Deposit: ");
         amtDeposit = Float.parseFloat(keypadIP());
         try {
@@ -141,7 +148,7 @@ public class ATMMachine implements ATMDisplay {
             System.out.println("Date Printed: " + new Date().toString());
             System.out.println("Last (max-" + balanceSlipCount + ") transactions:");
             int cnt = balanceSlipCount - 1;
-            for (int i = userSchema.getUserTransactionArrayList().size() - 1; i > 0 && cnt > 0; i--, cnt--) {
+            for (int i = userSchema.getUserTransactionArrayList().size() - 1; i >= 0 && cnt >= 0; i--, cnt--) {
                 System.out.println((balanceSlipCount - cnt) + ": ");
                 System.out.printf("%-20s%-20s\n", "Transaction Type: ", userSchema.getUserTransactionArrayList().get(i).getType());
                 System.out.printf("%-20s%-20.2f\n", "Amount changed: Rs.", userSchema.getUserTransactionArrayList().get(i).getTransactionAmount());

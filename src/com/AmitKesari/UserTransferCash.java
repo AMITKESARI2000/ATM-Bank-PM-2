@@ -17,6 +17,7 @@ public class UserTransferCash extends ATMMachine implements MenuDrive {
 
     boolean ACACCashTransfer() {
         Scanner scanner = new Scanner(System.in);
+        double processingFee = 0;
         boolean isUserExist = false;
         System.out.println("Enter Account Number Of The User To Which You Want To Transfer: ");
         String ipAccNumber = scanner.next();
@@ -26,21 +27,24 @@ public class UserTransferCash extends ATMMachine implements MenuDrive {
             if (userArrayList.get(i).getAccNumber().equals(ipAccNumber) &&
                     userArrayList.get(i).getIFSC().equals(ipIFSC)) {
                 isUserExist = true;
-                User transferUser = new User(userArrayList.get(i));
+                UserSchema transferUserSchema = userArrayList.get(i);
                 System.out.println("Enter Amount You want to transfer: ");
 
                 float ipAmount = Float.parseFloat(keypadIP());
                 if (!userSchema.getBankAcronym().equals(ipIFSC.substring(0, 4))) {
-                    System.out.println("Different Bank Account Detected. Charging 2% Processing Fee");
-                    ipAmount += 0.02 * ipAmount;
+                    processingFee = 0.02 * ipAmount;
+                    System.out.print("Different Bank Account Detected. Charging 2% Processing Fee Rs.");
+                    System.out.printf("%-20.2f\n", processingFee);
                 }
+                ipAmount += processingFee;
                 if (ipAmount < userSchema.getAccBalance()) {
-                    System.out.println("Transferring " + (ipAmount - 0.02 * ipAmount) + " from " +
-                            userSchema.getAccNumber() + " to " + ipAccNumber + " using");
-                    transferUser.userSchema.setAccBalance(transferUser.userSchema.getAccBalance() + ipAmount);
-                    transferUser.userSchema.addUserTransactionArrayList(new UserTransaction("A/C-A/C Credit", ipAmount, new Date().toString()));
+                    System.out.println("Transferring " + (long) (ipAmount - processingFee) + " from A/C " +
+                            userSchema.getAccNumber() + " to A/C " + ipAccNumber + " using");
+                    transferUserSchema.setAccBalance((float) (transferUserSchema.getAccBalance() + ipAmount - processingFee));
+                    transferUserSchema.addUserTransactionArrayList(new UserTransaction("AC-AC Credit", ipAmount, new Date().toString()));
                     userSchema.setAccBalance((userSchema.getAccBalance() - ipAmount));
-                    userSchema.addUserTransactionArrayList(new UserTransaction("A/C-A/C Debit", ipAmount, new Date().toString()));
+                    userSchema.addUserTransactionArrayList(new UserTransaction("AC-AC Debit", ipAmount, new Date().toString()));
+                    System.out.println(userSchema.getUserTransactionArrayList().get(0).getType() + "sssssssssssssssssssssssssssssssss");
                     return true;
                 } else {
                     System.out.println("You Don't Have Enough Amount In Your Balance.");
@@ -57,6 +61,7 @@ public class UserTransferCash extends ATMMachine implements MenuDrive {
 
     boolean internationalTransfer() {
         Scanner scanner = new Scanner(System.in);
+        double processingFee = 0;
         boolean isUserExist = false;
         System.out.println("Enter International Account Number To Which You Want To Transfer: ");
         String ipAccNumber = scanner.next();
@@ -70,11 +75,13 @@ public class UserTransferCash extends ATMMachine implements MenuDrive {
                 System.out.println("Enter Amount You want to transfer: ");
                 System.out.println("(NOTE: Processing fees is 30%)");
                 float ipAmount = Float.parseFloat(keypadIP());
-                ipAmount += 0.3 * ipAmount;
+                processingFee = 0.3 * ipAmount;
+                System.out.println("Charging 30% Processing Fee Rs." + processingFee);
+                ipAmount += processingFee;
                 if (ipAmount < userSchema.getAccBalance()) {
-                    System.out.println("Transferring " + getCurrencyType() + " " + (ipAmount - 0.3 * ipAmount) + " from " +
-                            userSchema.getAccNumber() + " to " + ipAccNumber + " using");
-                    transferUser.userSchema.setAccBalance(transferUser.userSchema.getAccBalance() + ipAmount);
+                    System.out.println("Transferring " + getCurrencyType() + " " + (ipAmount - processingFee) + " from A/C " +
+                            userSchema.getAccNumber() + " to A/C " + ipAccNumber + " using");
+                    transferUser.userSchema.setAccBalance((float) (transferUser.userSchema.getAccBalance() + ipAmount - processingFee));
                     transferUser.userSchema.addUserTransactionArrayList(new UserTransaction("International Credit", ipAmount, new Date().toString()));
                     userSchema.setAccBalance((userSchema.getAccBalance() - ipAmount));
                     userSchema.addUserTransactionArrayList(new UserTransaction("International Debit", ipAmount, new Date().toString()));
@@ -124,7 +131,7 @@ public class UserTransferCash extends ATMMachine implements MenuDrive {
             }
 
             case 3: {
-                showMainMenu();
+                new User(userSchema).showMenu();
                 break;
             }
             case 4: {
