@@ -6,15 +6,21 @@ import java.util.Scanner;
 
 import static com.AmitKesari.UserData.userArrayList;
 
-public class Main  {
+public class Main {
+    static PasswordSystem passwordSystem = new PasswordSystem();
     static BankAdmin bankAdmin = new BankAdmin();
-    private static final String correctAdminPassword = "1234";
+    private static final String correctAdminPassword = "12345";
+    final static String secretKeyAdmin = "secret";
+    private static final String encryptedAdminPassword = passwordSystem.encrypt(correctAdminPassword, secretKeyAdmin);
+
     public static final String bankNameIITT = "IITT Bank of Renukoot";
     static ATMMachine atmMachine = new ATMMachine();
 
     static void showMainMenu() {
         Scanner scanner = new Scanner(System.in);
         String yn = "y";
+
+//        System.out.println(passwordSystem.decrypt(encryptedAdminPassword,secretKeyAdmin));
 
         //Menu For Displaying Options at the Main screen
         do {
@@ -29,11 +35,10 @@ public class Main  {
                 case 1: {
                     //For Bank Purposes
                     System.out.println("ADMIN ACCESS");
-                    if (bankAdmin.passwordVerifier(correctAdminPassword)) {
+                    if (passwordSystem.passwordVerifier(encryptedAdminPassword)) {
                         bankAdmin.showMenu();
                     } else {
                         System.out.println("Not Authorized!!!");
-
                     }
                     break;
                 }
@@ -76,7 +81,7 @@ public class Main  {
         } while (yn.equals("y"));
     }
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         for (int i = 0; i < 52; i++) System.out.printf("=");
         System.out.println("\n==========Welcome To " + bankNameIITT + "==========");
         for (int i = 0; i < 52; i++) System.out.printf("=");

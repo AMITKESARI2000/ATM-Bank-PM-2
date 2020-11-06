@@ -1,6 +1,7 @@
 package com.AmitKesari;
 
 import java.util.Date;
+import java.util.Scanner;
 
 import static com.AmitKesari.Main.showMainMenu;
 import static com.AmitKesari.UserData.userArrayList;
@@ -13,17 +14,7 @@ public class BankAdmin extends PasswordSystem implements MenuDrive {
     //Initialise Bank Admin and User Data
     BankAdmin() {
         UserData userData = new UserData();
-        final String secretKey = "secrete";
 
-        String originalString = "javaguides";
-
-        PasswordSystem aesEncryptionDecryption = new PasswordSystem();
-        String encryptedString = aesEncryptionDecryption.encrypt(originalString, secretKey);
-        String decryptedString = aesEncryptionDecryption.decrypt(encryptedString, secretKey);
-
-        System.out.println(originalString);
-        System.out.println(encryptedString);
-        System.out.println(decryptedString);
     }
 
     //Displays Data of all logged users
@@ -60,7 +51,7 @@ public class BankAdmin extends PasswordSystem implements MenuDrive {
     @Override
     public void showMenu() {
         System.out.println("Choose Your Option:");
-
+        Scanner scanner = new Scanner(System.in);
         String[] functions = new String[]{"Display All User Data", "ATM Machine Details", "Back", "Exit"};
         for (int i = 0; i < functions.length; i++) {
             System.out.println(i + 1 + ": " + functions[i]);

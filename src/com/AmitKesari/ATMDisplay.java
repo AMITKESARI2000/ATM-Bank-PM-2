@@ -1,6 +1,7 @@
 package com.AmitKesari;
 
 import java.util.Date;
+import java.util.Scanner;
 
 public interface ATMDisplay extends MenuDrive {
     //Display welcome message
@@ -10,7 +11,6 @@ public interface ATMDisplay extends MenuDrive {
         System.out.println("Date" + date.toString());
 
     }
-
     //Display Keypad on screen
     String keypadIP();
 

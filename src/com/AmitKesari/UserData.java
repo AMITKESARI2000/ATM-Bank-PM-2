@@ -3,6 +3,9 @@ package com.AmitKesari;
 import java.util.ArrayList;
 import java.util.Date;
 
+import static com.AmitKesari.Main.passwordSystem;
+import static com.AmitKesari.Main.secretKeyAdmin;
+
 class UserTransaction {
     private String type = "Debit"; //Debit=nikalna
     private float transactionAmount = 0;
@@ -110,10 +113,18 @@ class UserSchema {
 public class UserData {
 
     static ArrayList<UserSchema> userArrayList = new ArrayList<>(0);
-
+    String encryptedString;
     UserData() {
+        final String secretKey = "secret";
+
+        String passwordString = "12345";
+
+        PasswordSystem aesEncryptionDecryption = new PasswordSystem();
+        encryptedString = aesEncryptionDecryption.encrypt(passwordString, secretKey);
+        String decryptedString = passwordSystem.decrypt(encryptedString, secretKey);
+
         userArrayList.add(new UserSchema(
-                "Anurodh", "90141", "12345", "Mr JM Dubey",
+                "Anurodh", "90141", encryptedString, "Mr JM Dubey",
                 "F-5,Hindalco Colony", "9816123794", "IITTN0001612", 100000
         ));
         userArrayList.add(new UserSchema(

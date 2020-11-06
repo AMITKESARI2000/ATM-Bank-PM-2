@@ -1,5 +1,7 @@
 package com.AmitKesari;
 
+import java.util.Scanner;
+
 import static com.AmitKesari.Main.*;
 
 
@@ -30,7 +32,7 @@ public class User implements MenuDrive {
     void changeAccPassword() {
         System.out.println("Confirm Current PIN First ");
 //        String tmpPassword= scanner.next();
-        if (atmMachine.passwordVerifier(userSchema.getAccPassword())) {
+        if (passwordSystem.passwordVerifier(userSchema.getAccPassword())) {
             System.out.println("Enter New 5 Digit PIN: ");
             String tmpPassword1 =atmMachine.keypadIP();
             System.out.println("Confirm New PIN By Typing It Again: ");
@@ -54,7 +56,7 @@ public class User implements MenuDrive {
     public void showMenu() {
         System.out.println("Current User:"+userSchema.getUserName());
         System.out.println("Choose your option:");
-
+        Scanner scanner = new Scanner(System.in);
         String[] functions = new String[]{"Account Details", "Cash Withdrawal", "Cash Deposition",
                 "Bank Statement Slip", "Change PIN", "Back", "Exit"};
         for (int i = 0; i < functions.length; i++) {

@@ -1,6 +1,7 @@
 package com.AmitKesari;
 
 import java.util.Date;
+import java.util.Scanner;
 
 public class ATMMachine implements ATMDisplay {
     private final String ATMID = "IITT_001_enihcam";
@@ -43,6 +44,7 @@ public class ATMMachine implements ATMDisplay {
     //Display Keypad on screen
     @Override
     public String keypadIP() {
+        Scanner scanner = new Scanner(System.in);
         String ipString = "0";
         System.out.println("7\t8\t9\t");
         System.out.println("4\t5\t6\t");
