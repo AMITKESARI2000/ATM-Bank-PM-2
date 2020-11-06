@@ -24,7 +24,6 @@ public class BankAdmin extends PasswordSystem implements MenuDrive {
             System.out.println(i + 1 + ": ");
             System.out.printf("%-20s%-20s\n", "User Name: ", userArrayList.get(i).getUserName());
             System.out.printf("%-20s%-20s\n", "Account Number: ", userArrayList.get(i).getAccNumber());
-            System.out.printf("%-20s%-20s\n", "Password (length): ", userArrayList.get(i).getAccPassword().length());
             System.out.printf("%-20s%-20s\n", "Guardian Name: ", userArrayList.get(i).getGuardianName());
             System.out.printf("%-20s%-20s\n", "Address: ", userArrayList.get(i).getAddress());
             System.out.printf("%-20s%-20s\n", "Mobile: ", userArrayList.get(i).getMobile());

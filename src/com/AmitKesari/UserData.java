@@ -39,6 +39,7 @@ class UserSchema {
     private String address = "";
     private String mobile = "";
     private String IFSC = "";
+    private String bankAcronym = "";
     private float accBalance = 0;
     private ArrayList<UserTransaction> userTransactionArrayList = new ArrayList<>(0);
 
@@ -66,6 +67,11 @@ class UserSchema {
         this.mobile = mobile;
         this.IFSC = IFSC;
         this.accBalance = accBalance;
+        bankAcronym = IFSC.substring(0, 4);
+    }
+
+    public String getBankAcronym() {
+        return bankAcronym;
     }
 
     public String getUserName() {
@@ -114,6 +120,7 @@ public class UserData {
 
     static ArrayList<UserSchema> userArrayList = new ArrayList<>(0);
     String encryptedString;
+
     UserData() {
         final String secretKey = "secret";
 
@@ -125,23 +132,23 @@ public class UserData {
 
         userArrayList.add(new UserSchema(
                 "Anurodh", "90141", encryptedString, "Mr JM Dubey",
-                "F-5,Hindalco Colony", "9816123794", "IITTN0001612", 100000
+                "F-5,Hindalco Colony", "9816123794", "GLAM0001612", 100000
         ));
         userArrayList.add(new UserSchema(
-                "A1", "11111", "12345", "Mr yroehT",
-                "Sr-511,Hindalco Colony", "9516123744", "IITTN0001612", 253200
+                "A1", "11111", encryptedString, "Mr yroehT",
+                "Sr-511,Hindalco Colony", "9516123744", "IITT0001612", 253200
         ));
         userArrayList.add(new UserSchema(
-                "A2", "1111", "12345", "Mr taCypoC",
-                "HH-17,Hindalco Colony", "8116128194", "IITTN0001612", 640800
+                "A2", "1111", encryptedString, "Mr taCypoC",
+                "HH-17,Hindalco Colony", "8116128194", "SDBN0001612", 640800
         ));
         userArrayList.add(new UserSchema(
                 "A3", "11111", "12345", "Mr msiraigalP",
-                "E-1,Hindalco Colony", "7116123794", "IITTN0001612", 700
+                "E-1,Hindalco Colony", "7116123794", "SRMI0001612", 700
         ));
         userArrayList.add(new UserSchema(
                 "Amit", "20341", "12345", "Mr Subhash",
-                "JR-49,Hindalco Colony", "9616773794", "IITTN0001612", 10000000
+                "JR-49,Hindalco Colony", "9616773794", "IITB0001612", 10000000
         ));
     }
 }

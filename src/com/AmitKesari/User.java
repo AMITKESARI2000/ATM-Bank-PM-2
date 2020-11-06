@@ -8,10 +8,12 @@ import static com.AmitKesari.Main.*;
 public class User implements MenuDrive {
     private int option;
     UserSchema userSchema = new UserSchema();
+    UserTransferCash userTransferCash;
 
     //Bring User Data from Database
     User(UserSchema userSchema) {
         this.userSchema = userSchema;
+        userTransferCash=new UserTransferCash(userSchema);
     }
 
     //Display User Details on screen
@@ -31,17 +33,16 @@ public class User implements MenuDrive {
     //Change password of user
     void changeAccPassword() {
         System.out.println("Confirm Current PIN First ");
-//        String tmpPassword= scanner.next();
         if (passwordSystem.passwordVerifier(userSchema.getAccPassword())) {
             System.out.println("Enter New 5 Digit PIN: ");
-            String tmpPassword1 =atmMachine.keypadIP();
+            String tmpPassword1 = atmMachine.keypadIP();
             System.out.println("Confirm New PIN By Typing It Again: ");
             String tmpPassword2 = atmMachine.keypadIP();
             if (tmpPassword1.equals(tmpPassword2)) {
-                if(tmpPassword1.length()==5) {
+                if (tmpPassword1.length() == 5) {
                     System.out.println("✔PIN Changed");
-                    userSchema.setAccPassword(tmpPassword1);
-                }else{
+                    userSchema.setAccPassword(passwordSystem.encrypt(tmpPassword1, secretKeyAdmin));
+                } else {
                     System.out.println("❌Too Long PIN. PIN Not Changed.");
                 }
             } else {
@@ -49,16 +50,17 @@ public class User implements MenuDrive {
             }
 
         }
+        System.out.println("In case of changing User Details please approach your nearest " + bankNameIITT);
     }
 
     //Shows Menu
     @Override
     public void showMenu() {
-        System.out.println("Current User:"+userSchema.getUserName());
+        System.out.println("Current User:" + userSchema.getUserName());
         System.out.println("Choose your option:");
         Scanner scanner = new Scanner(System.in);
         String[] functions = new String[]{"Account Details", "Cash Withdrawal", "Cash Deposition",
-                "Bank Statement Slip", "Change PIN", "Back", "Exit"};
+                "Bank Statement Slip/Mini Statement", "Change PIN","Transfer Cash", "Back", "Exit"};
         for (int i = 0; i < functions.length; i++) {
             System.out.println(i + 1 + ": " + functions[i]);
         }
@@ -101,11 +103,14 @@ public class User implements MenuDrive {
                 changeAccPassword();
                 showMenu();
             }
-            case 6: {
+            case 6:{
+                userTransferCash.showMenu();
+            }
+            case 7: {
                 showMainMenu();
                 break;
             }
-            case 7: {
+            case 8: {
                 System.exit(0);
                 break;
             }

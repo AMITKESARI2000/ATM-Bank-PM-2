@@ -54,7 +54,7 @@ public class Main {
                     for (int i = 0; i < userArrayList.size(); i++) {
                         if (userArrayList.get(i).getAccNumber().equals(accNumber)) {
                             isUserExist = true;
-                            if (bankAdmin.passwordVerifier(userArrayList.get(i).getAccPassword())) {
+                            if (passwordSystem.passwordVerifier(userArrayList.get(i).getAccPassword())) {
                                 User currentUser = new User(userArrayList.get(i));
                                 currentUser.showMenu();
                             } else {

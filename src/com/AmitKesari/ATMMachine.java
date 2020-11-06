@@ -76,16 +76,22 @@ public class ATMMachine implements ATMDisplay {
         amtWithdraw = Float.parseFloat(keypadIP());
         if (amtWithdraw > 0) {
             if (amtWithdraw <= userSchema.getAccBalance()) {
-                if (amtWithdraw >= reserveDailyAmount || amtWithdraw >= reserveDailyAmountUser) {
-                    System.out.println("Limit exceeded!");
-                    amtWithdraw = 0;
-                } else
-                    System.out.println("Withdrawing Cash... Collect Cash from Slot Please");
-                userSchema.setAccBalance((userSchema.getAccBalance() - amtWithdraw));
-                reserveDailyAmount -= amtWithdraw;
-                System.out.println(currencyType + " " + amtWithdraw + " withdrawn.");
-                userSchema.addUserTransactionArrayList(new UserTransaction("Debit", amtWithdraw,new Date().toString()));
-                return true;
+                if (OTPGeneration()) {
+                    if (amtWithdraw >= reserveDailyAmount || amtWithdraw >= reserveDailyAmountUser) {
+                        System.out.println("Limit exceeded!");
+                        amtWithdraw = 0;
+                    } else
+                        System.out.println("Withdrawing Cash... Collect Cash from Slot Please");
+                    userSchema.setAccBalance((userSchema.getAccBalance() - amtWithdraw));
+                    reserveDailyAmount -= amtWithdraw;
+                    System.out.println(currencyType + " " + amtWithdraw + " withdrawn.");
+                    userSchema.addUserTransactionArrayList(new UserTransaction("Debit", amtWithdraw, new Date().toString()));
+                    return true;
+
+                } else {
+                    System.out.println("OTP not verified! Try Again.");
+                    return false;
+                }
             } else {
                 System.out.println("You are trying to withdraw amount greater\nthan what you have in your account. Cancelling...");
                 return false;
@@ -100,21 +106,28 @@ public class ATMMachine implements ATMDisplay {
         float amtDeposit = 0;
         System.out.println("Enter the amount you want to Deposit: ");
         amtDeposit = Float.parseFloat(keypadIP());
-        if (amtDeposit > 0) {
-            if (amtDeposit >= 0) {
-                System.out.println("Depositing Cash... Deposit Cash In The Slot Please");
-                userSchema.setAccBalance((userSchema.getAccBalance() + amtDeposit));
-                reserveDailyAmount += amtDeposit;
-                System.out.println("Rs." + amtDeposit + " deposited.");
-                userSchema.addUserTransactionArrayList(new UserTransaction("Credit", amtDeposit, new Date().toString()));
-                return true;
+        try {
+            if (OTPGeneration()) {
+                if (amtDeposit >= 0) {
+                    System.out.println("Depositing Cash... Deposit Cash In The Slot Please");
+                    userSchema.setAccBalance((userSchema.getAccBalance() + amtDeposit));
+                    reserveDailyAmount += amtDeposit;
+                    System.out.println("Rs." + amtDeposit + " deposited.");
+                    userSchema.addUserTransactionArrayList(new UserTransaction("Credit", amtDeposit, new Date().toString()));
+                    return true;
+                } else {
+                    System.out.println("You are trying to Deposit invalid amount. Cancelling...");
+                    return false;
+                }
             } else {
-                System.out.println("You are trying to Deposit invalid amount. Cancelling...");
+                System.out.println("OTP not verified! Try Again.");
                 return false;
             }
+
+        } catch (Exception e) {
+            System.out.println("Nothing happened and changed.");
+            return false;
         }
-        System.out.println("Nothing happened and changed.");
-        return false;
     }
 
     //Prints balance slip for user
@@ -127,10 +140,10 @@ public class ATMMachine implements ATMDisplay {
             System.out.printf("%-20s%-20.2f\n", "Account Balance: Rs.", userSchema.getAccBalance());
             System.out.println("Date Printed: " + new Date().toString());
             System.out.println("Last (max-" + balanceSlipCount + ") transactions:");
-            int cnt = balanceSlipCount-1;
-            for (int i = userSchema.getUserTransactionArrayList().size()-1; i > 0 && cnt > 0; i--, cnt--) {
-                System.out.println((balanceSlipCount-cnt)+": ");
-                System.out.printf("%-20s%-20s\n", "Type: ", userSchema.getUserTransactionArrayList().get(i).getType());
+            int cnt = balanceSlipCount - 1;
+            for (int i = userSchema.getUserTransactionArrayList().size() - 1; i > 0 && cnt > 0; i--, cnt--) {
+                System.out.println((balanceSlipCount - cnt) + ": ");
+                System.out.printf("%-20s%-20s\n", "Transaction Type: ", userSchema.getUserTransactionArrayList().get(i).getType());
                 System.out.printf("%-20s%-20.2f\n", "Amount changed: Rs.", userSchema.getUserTransactionArrayList().get(i).getTransactionAmount());
                 System.out.printf("%-20s%-20s\n", "Time: ", userSchema.getUserTransactionArrayList().get(i).getTransactionTime());
             }
