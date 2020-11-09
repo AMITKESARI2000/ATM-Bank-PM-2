@@ -8,10 +8,12 @@ public class SqliteSetup {
 
     SqliteSetup() {
         createNewTable();
+        String paswd = "12345";
 
         //For Inserting New Data
-//        insertDataRow("Amit", "90141", "12345", "Mr JM Dubey",
-//                "F-5,Hindalco Colony", "9816123794", "GLAM0001612", 100000);
+//        insertDataRow("Amit", "20341",paswd, "Mr Subhash",
+//                "JR-49,Hindalco Colony", "9616773794", "IITB0001612", 10000000
+//        );
 
         selectAllData();
     }
