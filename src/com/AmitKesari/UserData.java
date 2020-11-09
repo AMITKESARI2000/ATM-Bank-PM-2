@@ -3,9 +3,6 @@ package com.AmitKesari;
 import java.util.ArrayList;
 import java.util.Date;
 
-import static com.AmitKesari.Main.passwordSystem;
-import static com.AmitKesari.Main.secretKeyAdmin;
-
 class UserTransaction {
     private String type = "Debit"; //Debit=nikalna
     private float transactionAmount = 0;
@@ -43,6 +40,7 @@ class UserSchema {
     private float accBalance = 0;
     private ArrayList<UserTransaction> userTransactionArrayList = new ArrayList<>(0);
 
+    //For adding transactions of the customer in the list
     public void addUserTransactionArrayList(UserTransaction userTransaction) {
         userTransactionArrayList.add(userTransaction);
     }
@@ -56,9 +54,9 @@ class UserSchema {
 
     }
 
-    //Parametrised constructor
+    //Parametrised constructor for adding user data in User ArrayList
     public UserSchema(String userName, String accNumber, String accPassword, String guardianName,
-                      String address, String mobile, String IFSC, long accBalance) {
+                      String address, String mobile, String IFSC, float accBalance) {
         this.userName = userName;
         this.accNumber = accNumber;
         this.accPassword = accPassword;
@@ -70,10 +68,7 @@ class UserSchema {
         bankAcronym = IFSC.substring(0, 4);
     }
 
-    public String getBankAcronym() {
-        return bankAcronym;
-    }
-
+    //Setter Getter functions
     public String getUserName() {
         return userName;
     }
@@ -113,24 +108,33 @@ class UserSchema {
     public void setAccBalance(float accBalance) {
         this.accBalance = accBalance;
     }
+
+    public String getBankAcronym() {
+        return bankAcronym;
+    }
 }
 
-//User Database
 public class UserData {
 
     static ArrayList<UserSchema> userArrayList = new ArrayList<>(0);
-    String encryptedString;
+    static SqliteSetup sqliteSetup;
 
+    //User Database Setting Up From SQL Database
     UserData() {
-        final String secretKey = "secret";
+        sqliteSetup = new SqliteSetup();
 
-        String passwordString = "12345";
+        userArrayList = sqliteSetup.getsqliteArrayList();
 
-        PasswordSystem passwordSystem = new PasswordSystem();
-        encryptedString = passwordSystem.encrypt(passwordString, secretKey);
+//DUMMY DATA AND ENCRYPTION
+//        final String secretKey = "secret";
+//        String encryptedString;
+//        String passwordString = "12345";
+//
+//        PasswordSystem passwordSystem = new PasswordSystem();
+//        encryptedString = passwordSystem.encrypt(passwordString, secretKey);
 //        String decryptedString = passwordSystem.decrypt(encryptedString, secretKey);
 
-        userArrayList.add(new UserSchema(
+        /*userArrayList.add(new UserSchema(
                 "Anurodh", "90141", encryptedString, "Mr JM Dubey",
                 "F-5,Hindalco Colony", "9816123794", "GLAM0001612", 100000
         ));
@@ -143,7 +147,7 @@ public class UserData {
                 "HH-17,Hindalco Colony", "8116128194", "SDBN0001612", 640800
         ));
         userArrayList.add(new UserSchema(
-                "A3", "11111", passwordSystem.encrypt("12345",secretKey), "Mr msiraigalP",
+                "A3", "11111", passwordSystem.encrypt("12345", secretKey), "Mr msiraigalP",
                 "E-1,Hindalco Colony", "7116123794", "SRMI0001612", 700
         ));
         userArrayList.add(new UserSchema(
@@ -151,8 +155,8 @@ public class UserData {
                 "D-121,Hindalco Colony", "90016523794", "SRMI0001612", 700
         ));
         userArrayList.add(new UserSchema(
-                "Amit", "20341", passwordSystem.encrypt("12345",secretKey), "Mr Subhash",
+                "Amit", "20341", passwordSystem.encrypt("12345", secretKey), "Mr Subhash",
                 "JR-49,Hindalco Colony", "9616773794", "IITB0001612", 10000000
-        ));
+        ));*/
     }
 }
