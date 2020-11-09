@@ -37,17 +37,21 @@ public class UserTransferCash extends ATMMachine implements MenuDrive {
                     System.out.printf("%-20.2f\n", processingFee);
                 }
                 ipAmount += processingFee;
-                if (ipAmount < userSchema.getAccBalance()) {
-                    System.out.println("Transferring " + (long) (ipAmount - processingFee) + " from A/C " +
-                            userSchema.getAccNumber() + " to A/C " + ipAccNumber + " using");
-                    transferUserSchema.setAccBalance((float) (transferUserSchema.getAccBalance() + ipAmount - processingFee));
-                    transferUserSchema.addUserTransactionArrayList(new UserTransaction("AC-AC Credit", ipAmount, new Date().toString()));
-                    userSchema.setAccBalance((userSchema.getAccBalance() - ipAmount));
-                    userSchema.addUserTransactionArrayList(new UserTransaction("AC-AC Debit", ipAmount, new Date().toString()));
-                    System.out.println(userSchema.getUserTransactionArrayList().get(0).getType() + "sssssssssssssssssssssssssssssssss");
-                    return true;
+                if (OTPGeneration()) {
+                    if (ipAmount < userSchema.getAccBalance()) {
+                        System.out.println("Transferring " + (long) (ipAmount - processingFee) + " from A/C " +
+                                userSchema.getAccNumber() + " to A/C " + ipAccNumber + " using");
+                        transferUserSchema.setAccBalance((float) (transferUserSchema.getAccBalance() + ipAmount - processingFee));
+                        transferUserSchema.addUserTransactionArrayList(new UserTransaction("AC-AC Credit", ipAmount, new Date().toString()));
+                        userSchema.setAccBalance((userSchema.getAccBalance() - ipAmount));
+                        userSchema.addUserTransactionArrayList(new UserTransaction("AC-AC Debit", ipAmount, new Date().toString()));
+                        return true;
+                    } else {
+                        System.out.println("You Don't Have Enough Amount In Your Balance.");
+                        return false;
+                    }
                 } else {
-                    System.out.println("You Don't Have Enough Amount In Your Balance.");
+                    System.out.println("OTP not verified! Try Again.");
                     return false;
                 }
             }
@@ -78,16 +82,21 @@ public class UserTransferCash extends ATMMachine implements MenuDrive {
                 processingFee = 0.3 * ipAmount;
                 System.out.println("Charging 30% Processing Fee Rs." + processingFee);
                 ipAmount += processingFee;
-                if (ipAmount < userSchema.getAccBalance()) {
-                    System.out.println("Transferring " + getCurrencyType() + " " + (ipAmount - processingFee) + " from A/C " +
-                            userSchema.getAccNumber() + " to A/C " + ipAccNumber + " using");
-                    transferUser.userSchema.setAccBalance((float) (transferUser.userSchema.getAccBalance() + ipAmount - processingFee));
-                    transferUser.userSchema.addUserTransactionArrayList(new UserTransaction("International Credit", ipAmount, new Date().toString()));
-                    userSchema.setAccBalance((userSchema.getAccBalance() - ipAmount));
-                    userSchema.addUserTransactionArrayList(new UserTransaction("International Debit", ipAmount, new Date().toString()));
-                    return true;
+                if (OTPGeneration()) {
+                    if (ipAmount < userSchema.getAccBalance()) {
+                        System.out.println("Transferring " + getCurrencyType() + " " + (ipAmount - processingFee) + " from A/C " +
+                                userSchema.getAccNumber() + " to A/C " + ipAccNumber + " using");
+                        transferUser.userSchema.setAccBalance((float) (transferUser.userSchema.getAccBalance() + ipAmount - processingFee));
+                        transferUser.userSchema.addUserTransactionArrayList(new UserTransaction("International Credit", ipAmount, new Date().toString()));
+                        userSchema.setAccBalance((userSchema.getAccBalance() - ipAmount));
+                        userSchema.addUserTransactionArrayList(new UserTransaction("International Debit", ipAmount, new Date().toString()));
+                        return true;
+                    } else {
+                        System.out.println("You Don't Have Enough Amount In Your Balance.");
+                        return false;
+                    }
                 } else {
-                    System.out.println("You Don't Have Enough Amount In Your Balance.");
+                    System.out.println("OTP not verified! Try Again.");
                     return false;
                 }
             }
@@ -99,6 +108,12 @@ public class UserTransferCash extends ATMMachine implements MenuDrive {
         return false;
     }
 
+    void foreignExchange() {
+        System.out.println("Welcome To Foreign Exchange. Hope You Have A Good Trip Abroad.");
+        System.out.printf("You have: Rs.%.2f", userSchema.getAccBalance());
+        
+    }
+
     private int option = 1;
 
     //Shows Menu
@@ -107,7 +122,7 @@ public class UserTransferCash extends ATMMachine implements MenuDrive {
         System.out.println("Current User:" + userSchema.getUserName());
         System.out.println("Choose your option:");
         Scanner scanner = new Scanner(System.in);
-        String[] functions = new String[]{"A/C to A/C Transfer", "International Transfer", "Back", "Exit"};
+        String[] functions = new String[]{"A/C to A/C Transfer", "International Transfer", "Foreign Exchange (Money Conversion)", "Back", "Exit"};
         for (int i = 0; i < functions.length; i++) {
             System.out.println(i + 1 + ": " + functions[i]);
         }
@@ -129,12 +144,15 @@ public class UserTransferCash extends ATMMachine implements MenuDrive {
                 showMenu();
                 break;
             }
-
             case 3: {
-                new User(userSchema).showMenu();
+
                 break;
             }
             case 4: {
+                new User(userSchema).showMenu();
+                break;
+            }
+            case 5: {
                 System.exit(0);
                 break;
             }

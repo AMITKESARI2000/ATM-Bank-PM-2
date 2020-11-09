@@ -28,7 +28,10 @@ public interface ATMDisplay extends MenuDrive {
     //Generates and verifies 4 digit OTP
     default boolean OTPGeneration() {
         Random random = new Random();
-        String otpGenerated = String.valueOf(random.nextInt(10000));
+        String otpGenerated;
+        do {
+            otpGenerated = String.valueOf(random.nextInt(10000));
+        } while (Integer.parseInt(otpGenerated) < 1000);
         System.out.println(otpGenerated + " OTP Generated. Enter This In ATM");
         System.out.println("Please Verify OTP: ");
 

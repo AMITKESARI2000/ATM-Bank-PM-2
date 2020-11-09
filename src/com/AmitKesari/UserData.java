@@ -126,9 +126,9 @@ public class UserData {
 
         String passwordString = "12345";
 
-        PasswordSystem aesEncryptionDecryption = new PasswordSystem();
-        encryptedString = aesEncryptionDecryption.encrypt(passwordString, secretKey);
-        String decryptedString = passwordSystem.decrypt(encryptedString, secretKey);
+        PasswordSystem passwordSystem = new PasswordSystem();
+        encryptedString = passwordSystem.encrypt(passwordString, secretKey);
+//        String decryptedString = passwordSystem.decrypt(encryptedString, secretKey);
 
         userArrayList.add(new UserSchema(
                 "Anurodh", "90141", encryptedString, "Mr JM Dubey",
@@ -139,15 +139,19 @@ public class UserData {
                 "Sr-511,Hindalco Colony", "9516123744", "IITT0001612", 253200
         ));
         userArrayList.add(new UserSchema(
-                "A2", "1111", encryptedString, "Mr taCypoC",
+                "A2", "11112", encryptedString, "Mr taCypoC",
                 "HH-17,Hindalco Colony", "8116128194", "SDBN0001612", 640800
         ));
         userArrayList.add(new UserSchema(
-                "A3", "11111", "12345", "Mr msiraigalP",
+                "A3", "11111", passwordSystem.encrypt("12345",secretKey), "Mr msiraigalP",
                 "E-1,Hindalco Colony", "7116123794", "SRMI0001612", 700
         ));
         userArrayList.add(new UserSchema(
-                "Amit", "20341", "12345", "Mr Subhash",
+                "A4", "11100", passwordSystem.encrypt("00000", secretKey), "Mr retaehC",
+                "D-121,Hindalco Colony", "90016523794", "SRMI0001612", 700
+        ));
+        userArrayList.add(new UserSchema(
+                "Amit", "20341", passwordSystem.encrypt("12345",secretKey), "Mr Subhash",
                 "JR-49,Hindalco Colony", "9616773794", "IITB0001612", 10000000
         ));
     }
