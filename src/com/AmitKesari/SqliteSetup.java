@@ -4,48 +4,51 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class SqliteSetup {
+    static private ArrayList<UserSchema> sqliteArrayList = new ArrayList<>();
+
     SqliteSetup() {
         createNewTable();
 
         //For Inserting New Data
-        insert("Amit", "90141", "12345", "Mr JM Dubey",
-                "F-5,Hindalco Colony", "9816123794", "GLAM0001612", 100000);
+//        insertDataRow("Amit", "90141", "12345", "Mr JM Dubey",
+//                "F-5,Hindalco Colony", "9816123794", "GLAM0001612", 100000);
 
-        selectAll();
+        selectAllData();
     }
 
-    static private ArrayList<UserSchema> sqliteArrayList = new ArrayList<>();
+    public static DatabaseMetaData meta;
 
-    private static Connection connect() {
-        Connection conn = null;
+    //Establish connection with database
+    private static Connection connectDatabase() {
+        Connection tryConnect = null;
         String dbPath = "src/com/AmitKesari/db/userdatabase.db";
         String url = "jdbc:sqlite:" + dbPath;
         try {
-            conn = DriverManager.getConnection(url);
-            if (conn != null) {
-                DatabaseMetaData meta = conn.getMetaData();
-                System.out.println("The driver name is " + meta.getDriverName());
-                System.out.println("A new database has been created.");
+            tryConnect = DriverManager.getConnection(url);
+            if (tryConnect != null) {
+                meta = tryConnect.getMetaData();
             }
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+            System.out.println("Error Connecting To Database.");
         }
 //        finally {
 //            try {
-//                if (conn != null) {
-//                    conn.close();
+//                if (tryConnect != null) {
+//                    tryConnect.close();
 //                }
 //            } catch (SQLException ex) {
 //                System.out.println(ex.getMessage());
 //            }
 //        }
-        return conn;
+        return tryConnect;
     }
 
+    //Creation Of Table Having Fields Of UserData
     public static void createNewTable() {
-        Connection conn = connect();
-        String sql = "CREATE TABLE IF NOT EXISTS userDetailsATM (\n"
+        Connection tryConnect = connectDatabase();
+        String QUERY = "CREATE TABLE IF NOT EXISTS userDetailsATM (\n"
                 + " id integer PRIMARY KEY,\n"
                 + " userName text NOT NULL,\n"
                 + " accNumber text NOT NULL, \n"
@@ -58,24 +61,25 @@ public class SqliteSetup {
                 + ");";
 
         try {
-            Statement stmt = null;
-            stmt = conn.createStatement();
-            stmt.execute(sql);
+            Statement statementSQL = null;
+            statementSQL = tryConnect.createStatement();
+            statementSQL.execute(QUERY);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
 
     }
 
-    public void insert(String userName, String accNumber, String accPassword, String guardianName,
-                       String address, String mobile, String IFSC, float accBalance) {
-        String sql = "INSERT INTO userDetailsATM" +
+    //Insert Data Back Into Database
+    public void insertDataRow(String userName, String accNumber, String accPassword, String guardianName,
+                              String address, String mobile, String IFSC, float accBalance) {
+        String QUERY = "INSERT INTO userDetailsATM" +
                 "(userName, accNumber,accPassword,guardianName,address,mobile,IFSC,accBalance)" +
                 " VALUES(?,?,?,?,?,?,?,?)";
 
         try {
-            Connection conn = this.connect();
-            PreparedStatement pstmt = conn.prepareStatement(sql);
+            Connection tryConnect = this.connectDatabase();
+            PreparedStatement pstmt = tryConnect.prepareStatement(QUERY);
             pstmt.setString(1, userName);
             pstmt.setString(2, accNumber);
             pstmt.setString(3, accPassword);
@@ -90,36 +94,37 @@ public class SqliteSetup {
         }
     }
 
-    public void selectAll() {
-        String sql = "SELECT * FROM userDetailsATM";
+    //Selecting All data from database
+    public void selectAllData() {
+        String QUERY = "SELECT * FROM userDetailsATM";
 
         try {
-            Connection conn = this.connect();
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(sql);
+            Connection tryConnect = this.connectDatabase();
+            Statement statementSQL = tryConnect.createStatement();
+            ResultSet returnedQuery = statementSQL.executeQuery(QUERY);
 
-            // loop through the result set
-            while (rs.next()) {
-                /*System.out.println(rs.getInt("id") + "\t" +
-                        rs.getString("userName") + "\t" +
-                        rs.getString("accNumber") + "\t" +
-                        rs.getString("accPassword") + "\t" +
-                        rs.getString("guardianName") + "\t" +
-                        rs.getString("address") + "\t" +
-                        rs.getString("mobile") + "\t" +
-                        rs.getString("IFSC") + "\t" +
-                        rs.getFloat("accBalance"));*/
+            // Loop through the result set
+            while (returnedQuery.next()) {
+                /*System.out.println(returnedQuery.getInt("id") + "\t" +
+                        returnedQuery.getString("userName") + "\t" +
+                        returnedQuery.getString("accNumber") + "\t" +
+                        returnedQuery.getString("accPassword") + "\t" +
+                        returnedQuery.getString("guardianName") + "\t" +
+                        returnedQuery.getString("address") + "\t" +
+                        returnedQuery.getString("mobile") + "\t" +
+                        returnedQuery.getString("IFSC") + "\t" +
+                        returnedQuery.getFloat("accBalance"));*/
                 final String secretKey = "secret";
 
-                String passwordString = rs.getString("accPassword");
+                String passwordString = returnedQuery.getString("accPassword");
 
                 PasswordSystem passwordSystem = new PasswordSystem();
                 String encryptedString = passwordSystem.encrypt(passwordString, secretKey);
                 sqliteArrayList.add(new UserSchema(
-                        rs.getString("userName"), rs.getString("accNumber"),
-                        encryptedString, rs.getString("guardianName"),
-                        rs.getString("address"), rs.getString("mobile"),
-                        rs.getString("IFSC"), rs.getFloat("accBalance")));
+                        returnedQuery.getString("userName"), returnedQuery.getString("accNumber"),
+                        encryptedString, returnedQuery.getString("guardianName"),
+                        returnedQuery.getString("address"), returnedQuery.getString("mobile"),
+                        returnedQuery.getString("IFSC"), returnedQuery.getFloat("accBalance")));
             }
 
         } catch (SQLException e) {

@@ -126,14 +126,14 @@ public class UserData {
         userArrayList = sqliteSetup.getsqliteArrayList();
 
 //DUMMY DATA AND ENCRYPTION
-//        final String secretKey = "secret";
-//        String encryptedString;
-//        String passwordString = "12345";
-//
-//        PasswordSystem passwordSystem = new PasswordSystem();
-//        encryptedString = passwordSystem.encrypt(passwordString, secretKey);
-//        String decryptedString = passwordSystem.decrypt(encryptedString, secretKey);
+    /*    final String secretKey = "secret";
+        String encryptedString;
+        String passwordString = "12345";
 
+        PasswordSystem passwordSystem = new PasswordSystem();
+        encryptedString = passwordSystem.encrypt(passwordString, secretKey);
+        String decryptedString = passwordSystem.decrypt(encryptedString, secretKey);
+*/
         /*userArrayList.add(new UserSchema(
                 "Anurodh", "90141", encryptedString, "Mr JM Dubey",
                 "F-5,Hindalco Colony", "9816123794", "GLAM0001612", 100000

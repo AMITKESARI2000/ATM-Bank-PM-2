@@ -1,9 +1,11 @@
 package com.AmitKesari;
 
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.Scanner;
 
 import static com.AmitKesari.Main.showMainMenu;
+import static com.AmitKesari.SqliteSetup.meta;
 import static com.AmitKesari.UserData.userArrayList;
 import static com.AmitKesari.Main.atmMachine;
 
@@ -42,6 +44,11 @@ public class BankAdmin extends PasswordSystem implements MenuDrive {
         System.out.printf("%-20s%-20s\n", "Energy EatUp (kWh): ", atmMachine.getEnergyConsumeKWH(upTimeHR));
         System.out.printf("%-20s%-20s\n", "Ambient Temp (C): ", atmMachine.getAmbientTemp());
         System.out.println("System Date:"+new Date().toString());
+        try {
+            System.out.println("The driver name is " + meta.getDriverName());
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
         System.out.println();
     }
 
