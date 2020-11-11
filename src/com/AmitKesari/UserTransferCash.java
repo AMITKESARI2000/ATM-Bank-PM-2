@@ -3,8 +3,6 @@ package com.AmitKesari;
 import java.util.Date;
 import java.util.Scanner;
 
-import static com.AmitKesari.Main.bankNameIITT;
-import static com.AmitKesari.Main.showMainMenu;
 import static com.AmitKesari.UserData.userArrayList;
 
 public class UserTransferCash extends ATMMachine implements MenuDrive {
@@ -40,7 +38,7 @@ public class UserTransferCash extends ATMMachine implements MenuDrive {
                 if (OTPGeneration()) {
                     if (ipAmount < userSchema.getAccBalance()) {
                         System.out.println("Transferring " + (long) (ipAmount - processingFee) + " from A/C " +
-                                userSchema.getAccNumber() + " to A/C " + ipAccNumber + " using");
+                                userSchema.getAccNumber() + " to A/C " + ipAccNumber + " Using Secure Server");
                         transferUserSchema.setAccBalance((float) (transferUserSchema.getAccBalance() + ipAmount - processingFee));
                         transferUserSchema.addUserTransactionArrayList(new UserTransaction("AC-AC Credit", ipAmount, new Date().toString()));
                         userSchema.setAccBalance((userSchema.getAccBalance() - ipAmount));
@@ -85,7 +83,7 @@ public class UserTransferCash extends ATMMachine implements MenuDrive {
                 if (OTPGeneration()) {
                     if (ipAmount < userSchema.getAccBalance()) {
                         System.out.println("Transferring " + getCurrencyType() + " " + (ipAmount - processingFee) + " from A/C " +
-                                userSchema.getAccNumber() + " to A/C " + ipAccNumber + " using");
+                                userSchema.getAccNumber() + " to A/C " + ipAccNumber + " Using Secure Server");
                         transferUser.userSchema.setAccBalance((float) (transferUser.userSchema.getAccBalance() + ipAmount - processingFee));
                         transferUser.userSchema.addUserTransactionArrayList(new UserTransaction("International Credit", ipAmount, new Date().toString()));
                         userSchema.setAccBalance((userSchema.getAccBalance() - ipAmount));
@@ -108,10 +106,48 @@ public class UserTransferCash extends ATMMachine implements MenuDrive {
         return false;
     }
 
-    void foreignExchange() {
+    boolean foreignExchange() {
         System.out.println("Welcome To Foreign Exchange. Hope You Have A Good Trip Abroad.");
-        System.out.printf("You have: Rs.%.2f", userSchema.getAccBalance());
-        
+        System.out.printf("You currently have: %.2f %s", userSchema.getAccBalance(), getCurrencyType());
+        Scanner scanner = new Scanner(System.in);
+        double processingFee = 0;
+        int currencyOption = 1;
+
+        System.out.println("Currency type you want to exchange it to:");
+        String[] currencies = new String[]{"Indian Rupee(INR): 100", "Australian Dollar(AUD): 1.85", "Chinese Yuan(CNY): 8.89",
+                "Euro(EUR): 1.14", "Pound Sterling(GBP): 1.01", "Japanese Yen(JPY): 141.66", "US Dollar (USD): 1.34"};
+        for (int i = 0; i < currencies.length; i++) {
+            System.out.println(i + 1 + ": " + currencies[i]);
+        }
+        currencyOption = scanner.nextInt();
+        double[] rateFactors = new double[]{1.0, 0.0185, 0.0889, 0.0114, 0.0101, 1.4166, 0.0134};
+        double rateFactor = 1;
+        if (currencyOption <= currencies.length) rateFactor = rateFactors[currencyOption - 1];
+        else System.out.println("Option Not Chosen Properly, Rate Factor Set to " + rateFactor);
+
+        System.out.println("Enter Amount In INR To Be Converted: ");
+        System.out.println("(NOTE: Processing fees is 25%)");
+        float ipAmount = Float.parseFloat(keypadIP());
+        processingFee = 0.25 * ipAmount;
+        System.out.println("Charging 25% Processing Fee Rs." + processingFee);
+        ipAmount += processingFee;
+        if (OTPGeneration()) {
+            if (ipAmount < userSchema.getAccBalance()) {
+                double exchangedMoney = (float) ((ipAmount - processingFee) * rateFactor);
+                System.out.printf("Please Collect Your (%s) Amount %.2f \n", currencies[currencyOption - 1], exchangedMoney);
+
+                userSchema.setAccBalance((userSchema.getAccBalance() - ipAmount));
+                userSchema.addUserTransactionArrayList(new UserTransaction("ForEx", ipAmount, new Date().toString()));
+                return true;
+            } else {
+                System.out.println("You Don't Have Enough Amount In Your Balance.");
+                return false;
+            }
+        } else {
+            System.out.println("OTP not verified! Try Again.");
+            return false;
+        }
+
     }
 
     private int option = 1;
@@ -145,7 +181,8 @@ public class UserTransferCash extends ATMMachine implements MenuDrive {
                 break;
             }
             case 3: {
-
+                foreignExchange();
+                showMenu();
                 break;
             }
             case 4: {

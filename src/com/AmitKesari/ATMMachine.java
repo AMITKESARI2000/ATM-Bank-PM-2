@@ -11,7 +11,7 @@ public class ATMMachine implements ATMDisplay {
     private double reserveDailyAmountUser = 50000;
     private int paperRoll = 1000;
     private float ambientTemp = 28;
-    private String currencyType = "Rupee";
+    private String currencyType = "INR";
     private float energyConsumeKWH = (float) 0.6;
     private int balanceSlipCount = 3;
 
